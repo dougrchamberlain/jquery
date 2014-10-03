@@ -868,7 +868,14 @@ jQuery.fn.extend({
 
 	trigger: function( type, data ) {
 		return this.each(function() {
-			jQuery.event.trigger( type, data, this );
+			if ( support.persistDynamicDisabledState ){
+				setTimeout( jQuery.proxy( function() {
+				jQuery.event.trigger( type, data, this );
+			}, this ), 10 );
+			} else {
+				jQuery.event.trigger( type, data, this );
+			}
+
 		});
 	},
 	triggerHandler: function( type, data ) {
